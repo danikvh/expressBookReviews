@@ -41,12 +41,27 @@ public_users.get('/books', async (req, res) => {
   }
 });
 
+/*
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
   const isbn = req.params.isbn
   return res.send(books[isbn])
  });
+ */
   
+// Get book details based on ISBN / ASYNC VERSION TASK 11
+public_users.get('/isbn/:isbn', async (req, res) => {
+  try {
+    const isbn = req.params.isbn
+    await new Promise((resolve, reject) => {
+      resolve(res.send(books[isbn]));
+    });
+  } catch (error) {
+    // Handle any potential errors here
+    console.error(error);
+  }
+});
+
 /*// Get book details based on author
 public_users.get('/author/:author', function (req, res) {
   let author = req.params.author
@@ -61,7 +76,7 @@ public_users.get('/author/:author', function (req, res) {
 });
 */
 
-// Get book details based on author / ASYNC VERSION TASK 11
+// Get book details based on author / ASYNC VERSION TASK 12
 public_users.get('/author/:author', async (req, res) => {
   try {
     let author = req.params.author
@@ -81,6 +96,7 @@ public_users.get('/author/:author', async (req, res) => {
   }
 });
 
+/*
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   let title = req.params.title
@@ -92,6 +108,27 @@ public_users.get('/title/:title',function (req, res) {
     }
   })
   return res.send(book);
+});
+*/
+
+// Get all books based on title / ASYNC VERSION TASK 13
+public_users.get('/title/:title', async (req, res) => {
+  try {
+    let title = req.params.title
+    let keys = Object.keys(books)
+    let book = "No books by the author have been found."
+    keys.forEach((key) => {
+      if (books[key].title === title) {
+        book = books[key]
+      }
+    })
+    await new Promise((resolve, reject) => {
+      resolve(res.send(book));
+    });
+  } catch (error) {
+    // Handle any potential errors here
+    console.error(error);
+  }
 });
 
 //  Get book review
