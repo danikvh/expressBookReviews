@@ -34,7 +34,7 @@ public_users.get('/books', async (req, res) => {
     });
 
     console.log("Promise for Task 10 resolved");
-    
+
   } catch (error) {
     // Handle any potential errors here
     console.error(error);
@@ -47,7 +47,7 @@ public_users.get('/isbn/:isbn', function (req, res) {
   return res.send(books[isbn])
  });
   
-// Get book details based on author
+/*// Get book details based on author
 public_users.get('/author/:author', function (req, res) {
   let author = req.params.author
   let keys = Object.keys(books)
@@ -58,6 +58,27 @@ public_users.get('/author/:author', function (req, res) {
     }
   })
   return res.send(book);
+});
+*/
+
+// Get book details based on author / ASYNC VERSION TASK 11
+public_users.get('/author/:author', async (req, res) => {
+  try {
+    let author = req.params.author
+    let keys = Object.keys(books)
+    let book = "No books by the author have been found."
+    keys.forEach((key) => {
+      if (books[key].author === author) {
+        book = books[key]
+      }
+    })
+    await new Promise((resolve, reject) => {
+      resolve(res.send(book));
+    });
+  } catch (error) {
+    // Handle any potential errors here
+    console.error(error);
+  }
 });
 
 // Get all books based on title
