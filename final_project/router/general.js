@@ -29,12 +29,12 @@ public_users.get('/',function (req, res) {
 // Get the book list / Async version for Task 10
 public_users.get('/books', async (req, res) => {
   try {
-    const get_books = new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       resolve(res.send(JSON.stringify({ books }, null, 4)));
     });
 
-    await get_books;
     console.log("Promise for Task 10 resolved");
+    
   } catch (error) {
     // Handle any potential errors here
     console.error(error);
