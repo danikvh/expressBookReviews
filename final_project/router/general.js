@@ -25,18 +25,26 @@ public_users.get('/isbn/:isbn', function (req, res) {
 public_users.get('/author/:author', function (req, res) {
   let author = req.params.author
   let keys = Object.keys(books)
+  let book = "No books by the author have been found."
   keys.forEach((key) => {
     if (books[key].author === author) {
-      return res.send(books[key]);
+      book = books[key]
     }
   })
-  return res.send("No books by the author have been found.");
+  return res.send(book);
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let title = req.params.title
+  let keys = Object.keys(books)
+  let book = "No books by the author have been found."
+  keys.forEach((key) => {
+    if (books[key].title === title) {
+      book = books[key]
+    }
+  })
+  return res.send(book);
 });
 
 //  Get book review
