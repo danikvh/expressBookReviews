@@ -9,7 +9,7 @@ const isValid = (username)=>{ //returns boolean
   let userswithsamename = users.filter((user)=>{
     return user.username === username
   });
-  if(userswithsamename.length > 0){
+  if (userswithsamename.length > 0) {
     return false;
   } else {
     return true;
@@ -48,9 +48,24 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let review = req.query.review
+  let user = req.session.authorization.username
+  let isbn = req.params.isbn
+  
+  if (!books[isbn].reviews) {
+    books[isbn].reviews = {};
+  }
+  books[isbn].reviews[user] = review;
+  return res.status(200).send("Review succesfully uploaded");
 });
+
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  let isbn = req.params.isbn
+  let user = req.session.authorization.username
+  delete books[isbn].reviews[user];
+  return res.status(200).send("Review succesfully deleted");
+})
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
